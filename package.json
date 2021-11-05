@@ -1,0 +1,84 @@
+{
+  "name": "document-site-builder",
+  "version": "1.0.0",
+  "author": "Will Cohen <chewnoill@gmail.com>",
+  "bin": {
+    "docs": "./bin/run"
+  },
+  "bugs": "https://github.com/chewnoill/document-site-builder/issues",
+  "dependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-syntax-jsx": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-react": "^7.16.0",
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^3",
+    "@types/react": "^17.0.34",
+    "@types/react-dom": "^17.0.11",
+    "babel-loader": "^8.2.3",
+    "handlebars": "^4.7.7",
+    "html-loader": "^3.0.1",
+    "html-webpack-plugin": "^5.5.0",
+    "http-server": "^14.0.0",
+    "markdown-loader": "^6.0.0",
+    "mdx-hydra": "^0.0.11",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "source-map": "^0.7.3",
+    "tslib": "^1",
+    "webpack": "^5.61.0",
+    "webpack-dev-server": "^4.4.0"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@types/node": "^16.11.6",
+    "eslint": "^5.13",
+    "eslint-config-oclif": "^3.1",
+    "eslint-config-oclif-typescript": "^0.1",
+    "globby": "^10",
+    "prettier": "^2.4.1",
+    "static-site-generator-webpack-plugin": "^3.4.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.3",
+    "webpack-cli": "^4.9.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json"
+  ],
+  "homepage": "https://github.com/chewnoill/document-site-builder",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "document-site-builder",
+    "plugins": [
+      "@oclif/plugin-help"
+    ],
+    "macos": {
+      "identifier": "com.orchestrator.command"
+    }
+  },
+  "repository": "chewnoill/document-site-builder",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "eslint . --ext .ts --config .eslintrc",
+    "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md",
+    "build:osx": "oclif-dev pack:macos",
+    "webpack": "webpack --config webpack.config.js"
+  },
+  "types": "lib/index.d.ts"
+}

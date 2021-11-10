@@ -4,7 +4,8 @@ import HtmlWebpackPlugin = require("html-webpack-plugin");
 import * as Webpack from "webpack";
 import * as WebpackDevServer from "webpack-dev-server";
 import { SourceMapGenerator } from 'source-map'
-import renderToString from 'mdx-hydra/renderToString'
+import { buildDynamicHTML } from "../mdx-template";
+import path = require("path");
 
 function selectEntrypoint(filename: string) {
   return filename.split('.')[0];
@@ -29,7 +30,7 @@ export default class Run extends Command {
     const files = fs.readdirSync(folder);
 
 
-
+    const resolveModules = path.resolve(__dirname,'../..','node_modules')
     const webpackConfig = [{
       mode: "development" as const,
       output: {
@@ -40,6 +41,13 @@ export default class Run extends Command {
       externals: {
         'react': 'React',
         'react-dom': 'ReactDOM',
+        '@emotion/*': '@emotion/*',
+      },
+      resolve: {
+        modules: [resolveModules],
+      },
+      resolveLoader: {
+        modules: [resolveModules],
       },
       entry: {
         ...files.reduce((acc, filename) => ({
@@ -53,7 +61,9 @@ export default class Run extends Command {
           {
             test: /\.mdx?$/,
             use: [
-              { loader: "babel-loader", options: { } },
+              { loader: "babel-loader", options: { 
+                presets: ["@babel/preset-react"].map(require.resolve as any)
+              } },
               {
                 loader: '@mdx-js/loader',
                 /** @type {import('@mdx-js/loader').Options} */
@@ -70,57 +80,10 @@ export default class Run extends Command {
         scriptLoading: 'blocking',
         chunks: [selectEntrypoint(filename)],
         filename: selectEntrypoint(filename) + ".html",
-        templateContent:
-          `<html>
-  <head>
-  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-  <script src="/provider.js"></script>
-  </head> 
-  <body>
-    <div id="root"></div>
-    <script>
-    ReactDOM.render(
-      React.createElement(provider.default, {},
-        React.createElement(docLoader.default, {components: provider.components})), 
-      document.getElementById("root")
-    );
-    </script>
-  </body>
-</html>`
+        templateContent: buildDynamicHTML()
       })),
       ],
-    },
-    {
-      mode: "development" as const,
-      output: {
-        library: 'provider',
-        libraryTarget: 'umd',
-        globalObject: 'this',
-      },
-      externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
-      },
-      entry: {
-        'provider': './src/provider.js'
-      },
-      devServer: {},
-      module: {
-        rules: [
-          {
-            test: /\.jsx?$/,
-            use: [{
-              loader: 'babel-loader',
-              options: {
-                presets: ["@babel/env", "@babel/react"]
-              }
-            }]
-          }
-        ]
-      },
-    },
-    ];
+    }];
     const compiler = Webpack(webpackConfig);
     const devServerOptions = { ...webpackConfig[0].devServer, open: true };
     const server = new WebpackDevServer(devServerOptions, compiler);

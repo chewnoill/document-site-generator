@@ -10,6 +10,17 @@ const components = {
   `,
 };
 
+const styles = `
+  h2 {
+    color: tomato;
+  }
+`;
+
 export function Provider({ children }) {
-  return <MDXProvider components={components}>{children}</MDXProvider>;
+  return (
+    <>
+      <style>{styles}</style>
+      <MDXProvider components={components}>{children}</MDXProvider>
+    </>
+  );
 }

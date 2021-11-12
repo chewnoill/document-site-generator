@@ -1,11 +1,6 @@
 import { Command, flags } from "@oclif/command";
 import * as fs from "fs";
-import HtmlWebpackPlugin = require("html-webpack-plugin");
 import { buildStaticHTML } from "../mdx-template";
-
-function selectEntrypoint(filename: string) {
-  return filename.split('.')[0];
-}
 
 export default class Run extends Command {
   static description = "describe the command here";

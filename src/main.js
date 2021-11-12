@@ -1,26 +1,27 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { MDXProvider, mdx as renderer } from "@mdx-js/react";
+import { MDXProvider, mdx } from "@mdx-js/react";
+import Code from './components/code';
 
-export const mdx = renderer;
+export { mdx };
 
-const components = {
-  h1: styled.h1`
-    color: tomato;
-  `,
-};
-
-const styles = `
-  h2 {
-    color: tomato;
+const Wrapper = styled.article`
+  margin: 0px 40px;
+  h1 {
+    font-size: 42px;
   }
 `;
 
+export const components = {
+  code: Code,
+  wrapper: Wrapper
+};
+
+
 export function Provider({ children }) {
   return (
-    <>
-      <style>{styles}</style>
-      <MDXProvider components={components}>{children}</MDXProvider>
-    </>
+    <MDXProvider components={components}>
+      {children}
+    </MDXProvider>
   );
 }

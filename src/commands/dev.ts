@@ -3,7 +3,6 @@ import * as fs from "fs";
 import HtmlWebpackPlugin = require("html-webpack-plugin");
 import * as Webpack from "webpack";
 import * as WebpackDevServer from "webpack-dev-server";
-import { SourceMapGenerator } from 'source-map'
 import { buildDynamicHTML } from "../mdx-template";
 import path = require("path");
 
@@ -30,7 +29,7 @@ export default class Run extends Command {
     const files = fs.readdirSync(folder);
 
 
-    const resolveModules = path.resolve(__dirname,'../..','node_modules')
+    const resolveModules = path.resolve(__dirname, '../..', 'node_modules')
     const webpackConfig = [{
       mode: "development" as const,
       output: {
@@ -41,10 +40,8 @@ export default class Run extends Command {
       externals: {
         'react': 'React',
         'react-dom': 'ReactDOM',
-        '@emotion/*': '@emotion/*',
       },
       resolve: {
-        modules: [resolveModules],
       },
       resolveLoader: {
         modules: [resolveModules],
@@ -61,14 +58,16 @@ export default class Run extends Command {
           {
             test: /\.mdx?$/,
             use: [
-              { loader: "babel-loader", options: { 
-                presets: ["@babel/preset-react"].map(require.resolve as any)
-              } },
+              {
+                loader: "babel-loader",
+                options: {
+                  presets: ["@babel/preset-react"].map(require.resolve as any)
+                }
+              },
               {
                 loader: '@mdx-js/loader',
-                /** @type {import('@mdx-js/loader').Options} */
                 options: {
-                  SourceMapGenerator,
+                  renderer: ``
                 },
               },
             ]

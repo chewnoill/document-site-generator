@@ -1,8 +1,9 @@
 const path = require("path");
+const resolveModules = path.resolve(__dirname, "node_modules");
 module.exports = {
-  mode: "development",
+  mode: "production",
   output: {
-    path: path.resolve(__dirname,"out"),
+    path: path.resolve(__dirname, "out"),
     library: "main",
     libraryTarget: "umd",
     globalObject: "this",
@@ -14,16 +15,25 @@ module.exports = {
   entry: {
     main: "./src/main.js",
   },
-  devServer: {},
+  resolveLoader: {
+    modules: [resolveModules],
+  },
+  resolve: {
+    extensions: [".js", ".jsx"],
+  },
   module: {
     rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
       {
         test: /\.jsx?$/,
         use: [
           {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/env", "@babel/react"],
+              presets: ["@babel/preset-react"].map(require.resolve),
             },
           },
         ],

@@ -88,7 +88,7 @@
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md",
     "build:osx": "oclif-dev pack:macos",
-    "webpack": "webpack --config webpack.config.js"
+    "build:static": "webpack --config webpack.prod.config.js"
   },
   "types": "lib/index.d.ts"
 }

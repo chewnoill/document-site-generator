@@ -1,13 +1,14 @@
 import { Command, flags } from "@oclif/command";
 import * as fs from "fs";
-import HtmlWebpackPlugin = require("html-webpack-plugin");
 import * as Webpack from "webpack";
 import * as WebpackDevServer from "webpack-dev-server";
-import { buildDynamicHTML } from "../mdx-template";
-import path = require("path");
+import { mdx } from "@mdx-js/react";
+const path = require("path");
+const contentConfig = require("../../webpack.content-loader.config");
+const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 
 function selectEntrypoint(filename: string) {
-  return filename.split('.')[0];
+  return path.basename(filename).split('.')[0];
 }
 
 export default class Run extends Command {
@@ -26,61 +27,41 @@ export default class Run extends Command {
 
     const folder = args.folder;
 
-    const files = fs.readdirSync(folder);
+    const files = fs.readdirSync(folder)
+      .map(filename => path.resolve(folder, filename))
+      .filter(filename => fs.lstatSync(filename)
+        .isFile())
 
+    const entry = files.reduce((acc, filepath) => {
+      return {
+        ...acc,
+        [selectEntrypoint(filepath)]: filepath,
+      };
+    }, {});
 
-    const resolveModules = path.resolve(__dirname, '../..', 'node_modules')
+    const resolveModules = [path.resolve(__dirname, '..', '..', 'node_modules'), path.resolve("./", folder)]
     const webpackConfig = [{
+      ...contentConfig,
       mode: "development" as const,
-      output: {
-        library: 'docLoader',
-        libraryTarget: 'umd',
-        globalObject: 'this',
-      },
-      externals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
+      devServer: { 
+        port: 9000,
+       },
+      resolveLoader: {
+        modules: resolveModules,
       },
       resolve: {
+        modules: resolveModules,
       },
-      resolveLoader: {
-        modules: [resolveModules],
-      },
-      entry: {
-        ...files.reduce((acc, filename) => ({
-          ...acc,
-          [selectEntrypoint(filename)]: './' + folder + '/' + filename,
-        }), {}),
-      },
-      devServer: {},
-      module: {
-        rules: [
-          {
-            test: /\.mdx?$/,
-            use: [
-              {
-                loader: "babel-loader",
-                options: {
-                  presets: ["@babel/preset-react"].map(require.resolve as any)
-                }
-              },
-              {
-                loader: '@mdx-js/loader',
-                options: {
-                  renderer: ``
-                },
-              },
-            ]
-          }
-        ]
-      },
-      plugins: [...files.map(filename => new HtmlWebpackPlugin({
-        inject: 'head',
-        scriptLoading: 'blocking',
-        chunks: [selectEntrypoint(filename)],
-        filename: selectEntrypoint(filename) + ".html",
-        templateContent: buildDynamicHTML()
-      })),
+      target: "node",
+      entry,
+      plugins: [
+        new StaticSiteGeneratorPlugin({
+          globals: {
+            mdx,
+          },
+          paths: ['/'],
+          crawl: true,
+        })
       ],
     }];
     const compiler = Webpack(webpackConfig);

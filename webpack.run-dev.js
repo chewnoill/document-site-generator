@@ -29,7 +29,7 @@
               {
                 loader: "babel-loader",
                 options: {
-                  presets: ["@babel/preset-react"].map(require.resolve as any)
+                  presets: ["@babel/preset-react"].map(require.resolve)
                 }
               },
               {

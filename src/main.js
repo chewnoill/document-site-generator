@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { MDXProvider, mdx } from "@mdx-js/react";
-import Code from './components/code';
+import Code from "./components/code";
 
 export { mdx };
 
@@ -14,14 +14,11 @@ const Wrapper = styled.article`
 
 export const components = {
   code: Code,
-  wrapper: Wrapper
+  wrapper: Wrapper,
 };
 
-
 export function Provider({ children }) {
-  return (
-    <MDXProvider components={components}>
-      {children}
-    </MDXProvider>
-  );
+  return <MDXProvider components={components}>{children}</MDXProvider>;
 }
+
+globalThis.mdx = mdx;

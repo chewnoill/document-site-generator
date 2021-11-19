@@ -2,9 +2,9 @@ import { Command, flags } from "@oclif/command";
 import * as fs from "fs";
 import HtmlWebpackPlugin = require("html-webpack-plugin");
 import * as Webpack from "webpack";
-import path = require("path");
+import * as path from "path";
 import contentConfig = require("../../webpack.content-loader.config");
-import { buildStaticHTML } from "../mdx-template";
+import { buildHTML } from '../mdx-template';
 
 function selectEntrypoint(filename: string) {
   return filename.split('.')[0];
@@ -32,8 +32,13 @@ export default class Run extends Command {
     const webpackConfig = [{
       ...contentConfig,
       mode: "development" as const,
+      output: {
+        ...contentConfig.output,
+        filename: '[name].bundle.js',
+        path: path.resolve(folder, '..','out'),
+      },
       resolveLoader: {
-        modules: [resolveModules, '.'],
+        modules: [resolveModules],
       },
       entry: {
         ...files.reduce((acc, filename) => ({
@@ -46,10 +51,16 @@ export default class Run extends Command {
         scriptLoading: 'blocking',
         chunks: [selectEntrypoint(filename)],
         filename: selectEntrypoint(filename) + ".html",
-        templateContent: buildStaticHTML(fs.readFileSync(`${folder}/${filename}`).toString())
+        templateContent: buildHTML({
+          staticMDX: "",
+          script: "const MDXContent = docLoader.default;",
+          mainScript: '<script src="https://quizzical-poincare-bb2498.netlify.app/main.js"></script>',
+        }),
       })),
       ],
     }];
-    const compiler = Webpack(webpackConfig);
+    Webpack(webpackConfig).run(()=>{
+      console.log('done...');
+    });
   }
 }

@@ -1,7 +1,7 @@
-const emoji = require("remark-emoji");
-const rehypePrism = require("@mapbox/rehype-prism");
- 
-module.exports = {
+import * as emoji from 'remark-emoji';
+import rehypePrism from '@mapbox/rehype-prism';
+
+export default {
   output: {
     library: "docLoader",
     libraryTarget: "umd",
@@ -23,7 +23,7 @@ module.exports = {
           {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-react"].map(require.resolve),
+              presets: ["@babel/preset-react"].map(require.resolve as any),
             },
           },
           {

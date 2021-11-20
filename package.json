@@ -8,10 +8,13 @@
     "prepack": "rm -rf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md",
-    "dev": "webpack serve --config webpack.dev.config.js",
+    "predev": "tsc",
+    "dev": "webpack serve --config lib/webpack/dev.config.js",
     "dev:run": "./bin/run",
     "build:osx": "oclif-dev pack:macos",
-    "build:static": "webpack --config webpack.main-prod.config.js"
+    "build:deb": "oclif-dev pack:deb",
+    "build:static": "webpack --config lib/webpack/main-prod.config.js",
+    "build:docs": "yarn dev:run build docs"
   },
   "bin": {
     "docs": "./bin/run"

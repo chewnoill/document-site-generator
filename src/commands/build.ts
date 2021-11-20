@@ -3,7 +3,7 @@ import * as fs from "fs";
 import HtmlWebpackPlugin = require("html-webpack-plugin");
 import * as Webpack from "webpack";
 import * as path from "path";
-import contentConfig = require("../../webpack.content-loader.config");
+import contentConfig from "../webpack/content-loader.config";
 import { buildHTML } from '../mdx-template';
 
 function selectEntrypoint(filename: string) {

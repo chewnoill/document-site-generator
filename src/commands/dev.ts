@@ -4,9 +4,8 @@ import * as Webpack from "webpack";
 import * as WebpackDevServer from "webpack-dev-server";
 import HtmlWebpackPlugin = require("html-webpack-plugin");
 import { buildHTML } from '../mdx-template';
-
-const path = require("path");
-const contentConfig = require("../../webpack.content-loader.config");
+import * as path from "path";
+import contentConfig from "../webpack/content-loader.config";
 
 function selectEntrypoint(filename: string) {
   return path.basename(filename).split('.')[0];
@@ -56,10 +55,13 @@ export default class Run extends Command {
           ...contentConfig.output,
           publicPath: "auto",
         },
-        devServer:{
+        devServer: {
           port: 9000,
         },
-        mode: "development",
+        resolveLoader: {
+          modules: resolveModules,
+        },
+        mode: "development" as const,
         entry,
         plugins: [
           ...files
@@ -78,7 +80,7 @@ export default class Run extends Command {
                   }),
                 }),
               ]), [])
-            
+
         ],
       }
     ];

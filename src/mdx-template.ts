@@ -1,7 +1,7 @@
-const Handlebars = require("handlebars");
-const { renderToString } = require("mdx-hydra/build/render-to-string");
-const emoji = require("remark-emoji");
-const rehypePrism = require("@mapbox/rehype-prism");
+import * as Handlebars from "handlebars";
+import { renderToString } from "mdx-hydra/build/render-to-string";
+import * as emoji from "remark-emoji";
+import rehypePrism from "@mapbox/rehype-prism";
 
 const template = Handlebars.compile(`<html>
   <head>
@@ -26,7 +26,7 @@ const template = Handlebars.compile(`<html>
 </body>
 </html>`);
 
-exports.buildHTML = function buildHTML({ staticMDX, script, mainScript }) {
+export function buildHTML({ staticMDX, script, mainScript }) {
   return template({
     staticMDX,
     script,
@@ -34,7 +34,7 @@ exports.buildHTML = function buildHTML({ staticMDX, script, mainScript }) {
   });
 };
 
-exports.buildDynamicHTML = function buildDynamicHTML(content) {
+export function buildDynamicHTML(content) {
   const code = renderToString({
     source: content,
     Wrapper: ({ children }) => children,
@@ -48,7 +48,7 @@ exports.buildDynamicHTML = function buildDynamicHTML(content) {
   });
 };
 
-exports.buildStaticHTML = function buildStaticHTML(content) {
+export function buildStaticHTML(content) {
   const code = renderToString({
     source: content,
     Wrapper: ({ children }) => children,

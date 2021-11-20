@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
   mode: "production",
   output: {
     library: "main",
@@ -28,7 +28,7 @@ module.exports = {
           {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-react"].map(require.resolve),
+              presets: ["@babel/preset-react"].map(require.resolve as any),
             },
           },
         ],

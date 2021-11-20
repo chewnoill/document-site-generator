@@ -1,9 +1,11 @@
-const path = require("path");
-const fs = require("fs");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { buildHTML } = require("./src/mdx-template");
+import * as path from "path";
+import * as fs from "fs";
+import * as HtmlWebpackPlugin from "html-webpack-plugin";
+import { buildHTML } from "../mdx-template";
+import contentConfig from "./content-loader.config";
+import mainConfig from "./main.config.js";
 
-const resolveModules = path.resolve(__dirname, "node_modules");
+const resolveModules = path.resolve(__dirname, "..", "..", "node_modules");
 
 function selectEntrypoint(filename) {
   return path.basename(filename).split(".")[0];
@@ -24,8 +26,6 @@ function resolveFileList(folder) {
 
 const files = resolveFileList(folder);
 
-const contentConfig = require("./webpack.content-loader.config");
-const mainConfig = require("./webpack.main.config.js");
 
 module.exports = [
   {

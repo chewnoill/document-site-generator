@@ -1,8 +1,7 @@
-const path = require("path");
+import * as path from 'path';
+import mainConfig from './main.config';
 
-const mainConfig = require("./webpack.main.config.js");
-
-const resolveModules = path.resolve(__dirname, "node_modules");
+const resolveModules = path.resolve(__dirname, '..','..', "node_modules");
 
 module.exports = {
   ...mainConfig,

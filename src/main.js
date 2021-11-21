@@ -1,16 +1,9 @@
 import React from "react";
-import styled from "@emotion/styled";
 import { MDXProvider, mdx } from "@mdx-js/react";
 import Code from "./components/code";
+import Wrapper from './wrapper';
 
 export { mdx };
-
-const Wrapper = styled.article`
-  margin: 0px 40px;
-  h1 {
-    font-size: 42px;
-  }
-`;
 
 export const components = {
   code: Code,

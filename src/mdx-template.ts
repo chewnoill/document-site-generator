@@ -10,7 +10,7 @@ const template = Handlebars.compile(`<html>
   {{{mainScript}}}
   </head> 
 <body>
-<div id="root">
+<div id="root" style="display: flex;justify-content: center;">
   {{{staticMDX}}}
 </div>
 <script>

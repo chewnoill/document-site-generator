@@ -11,15 +11,21 @@ function selectEntrypoint(filename: string) {
 }
 
 export default class Run extends Command {
-  static description = "describe the command here";
+  static description = "Builds the contents of [FOLDER] ";
 
-  static examples = [`$ docs run `];
+  static examples = [`$ document-site-builder build docs`];
 
   static flags = {
     help: flags.help({ char: "h" }),
+    outputFolder: flags.string({ char: "o", default: "out", helpValue: "output folder" }),
   };
 
-  static args = [{ name: "folder" }];
+  static args = [{
+    name: "folder",
+    required: true,
+    description: "folder to watch",
+    default: 'docs',
+  }];
 
   async run() {
     const { args } = this.parse(Run);
@@ -35,7 +41,7 @@ export default class Run extends Command {
       output: {
         ...contentConfig.output,
         filename: '[name].bundle.js',
-        path: path.resolve(folder, '..','out'),
+        path: path.resolve(folder, '..', args.outputFolder),
       },
       resolveLoader: {
         modules: [resolveModules],
@@ -59,7 +65,7 @@ export default class Run extends Command {
       })),
       ],
     }];
-    Webpack(webpackConfig).run(()=>{
+    Webpack(webpackConfig).run(() => {
       console.log('done...');
     });
   }

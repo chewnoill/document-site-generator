@@ -23,15 +23,20 @@ function resolveFileList(folder) {
 }
 
 export default class Run extends Command {
-  static description = "describe the command here";
+  static description = "Runs a webpack development service to see changes you make locally";
 
-  static examples = [`$ docs run `];
+  static examples = [`$ document-site-builder dev docs`];
 
   static flags = {
     help: flags.help({ char: "h" }),
   };
 
-  static args = [{ name: "folder" }];
+  static args = [{
+    name: "folder",
+    required: true,
+    description: "folder to watch",
+    default: 'docs',
+  }];
 
   async run() {
     const { args } = this.parse(Run);

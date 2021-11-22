@@ -1,30 +1,66 @@
-
 # Document Site Builder
 
-An exercise in configuring webpack.
+## Getting Started
 
-## Development Webpack configuration
+Starting a local development server,
+to show a preview of your content in 
+a browser window.
 
-[webpack.dev.config.js](./webpack.dev.config.js)
-
-Document Site Developer build
-
-`yarn dev`
+All mdx files in the designated folder
+will be included as entrypoints.
 
 
-static content
----
-
-```
-src/main.js --> /out/main.js
+```cmd
+// with npx
+npx document-site-builder dev <foldername>
 ```
 
-Requires, but does not include, React/ReactDom in the bundle.
-see (webpack.main.config.js)[./webpack.main.config.js] for details.
 
-CLI Client
----
+```bash
+$ document-site-builder -h
+USAGE
+  $ document-site-builder [COMMAND]
 
-Responsible for reading a local folder, running webpack dev server
+COMMANDS
+  build  Builds the contents of [FOLDER]
+  dev    Runs a webpack development service to see changes you make
+         locally
+  help   display help for document-site-builder
+```
 
-mdx-template
+Running a dev server
+
+```bash
+$ document-site-builder dev -h
+Runs a webpack development service to see changes you make locally
+
+USAGE
+  $ document-site-builder dev FOLDER
+
+ARGUMENTS
+  FOLDER  [default: docs] folder to watch
+
+OPTIONS
+  -h, --help  show CLI help
+
+EXAMPLE
+  $ document-site-builder dev docs
+```
+
+Building static content
+
+```bash
+$ document-site-builder build -h
+USAGE
+  $ document-site-builder build FOLDER
+
+ARGUMENTS
+  FOLDER  [default: docs] folder to watch
+
+OPTIONS
+  -h, --help                        show CLI help
+  -o, --outputFolder=output folder  [default: out]
+
+EXAMPLE
+  $ document-site-builder build docs
+```

@@ -7,8 +7,6 @@ export default function Code({ className, children }) {
     case "mermaidjs":
       return <Mermaid>{children}</Mermaid>;
     default:
-      return <code>
-        {children}
-      </code>;
+      return <code>{children}</code>;
   }
 }

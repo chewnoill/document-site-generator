@@ -13,8 +13,9 @@
     "dev:run": "./bin/run",
     "build:osx": "oclif-dev pack:macos",
     "build:deb": "oclif-dev pack:deb",
-    "build:static": "webpack --config lib/webpack/main-prod.config.js",
-    "build:docs": "yarn dev:run build docs"
+    "build:static": "tsc && webpack --config lib/webpack/main-prod.config.js",
+    "build:docs": "yarn dev:run build docs",
+    "format": "prettier -w src/*"
   },
   "bin": {
     "docs": "./bin/run"

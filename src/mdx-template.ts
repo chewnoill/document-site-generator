@@ -32,7 +32,7 @@ export function buildHTML({ staticMDX, script, mainScript }) {
     script,
     mainScript,
   });
-};
+}
 
 export function buildDynamicHTML(content) {
   const code = renderToString({
@@ -46,7 +46,7 @@ export function buildDynamicHTML(content) {
     mainScript:
       '<script src="https://quizzical-poincare-bb2498.netlify.app/main.js"></script>',
   });
-};
+}
 
 export function buildStaticHTML(content) {
   const code = renderToString({
@@ -62,4 +62,4 @@ export function buildStaticHTML(content) {
     mainScript:
       '<script src="https://quizzical-poincare-bb2498.netlify.app/main.js"></script>',
   });
-};
+}

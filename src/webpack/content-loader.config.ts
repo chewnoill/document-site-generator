@@ -1,5 +1,5 @@
-import * as emoji from 'remark-emoji';
-import rehypePrism from '@mapbox/rehype-prism';
+import * as emoji from "remark-emoji";
+import rehypePrism from "@mapbox/rehype-prism";
 
 export default {
   output: {
@@ -15,7 +15,7 @@ export default {
     rules: [
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
       },
       {
         test: /\.mdx?$/,

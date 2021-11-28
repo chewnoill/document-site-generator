@@ -3,12 +3,12 @@ import * as fs from "fs";
 import * as Webpack from "webpack";
 import * as WebpackDevServer from "webpack-dev-server";
 import HtmlWebpackPlugin = require("html-webpack-plugin");
-import { buildHTML } from '../mdx-template';
+import { buildHTML } from "../mdx-template";
 import * as path from "path";
 import contentConfig from "../webpack/content-loader.config";
 
 function selectEntrypoint(filename: string) {
-  return path.basename(filename).split('.')[0];
+  return path.basename(filename).split(".")[0];
 }
 
 function resolveFileList(folder) {
@@ -23,7 +23,8 @@ function resolveFileList(folder) {
 }
 
 export default class Run extends Command {
-  static description = "Runs a webpack development service to see changes you make locally";
+  static description =
+    "Runs a webpack development service to see changes you make locally";
 
   static examples = [`$ document-site-builder dev docs`];
 
@@ -31,12 +32,14 @@ export default class Run extends Command {
     help: flags.help({ char: "h" }),
   };
 
-  static args = [{
-    name: "folder",
-    required: true,
-    description: "folder to watch",
-    default: 'docs',
-  }];
+  static args = [
+    {
+      name: "folder",
+      required: true,
+      description: "folder to watch",
+      default: "docs",
+    },
+  ];
 
   async run() {
     const { args } = this.parse(Run);
@@ -52,7 +55,9 @@ export default class Run extends Command {
       };
     }, {});
 
-    const resolveModules = [path.resolve(__dirname, '..', '..', 'node_modules')]
+    const resolveModules = [
+      path.resolve(__dirname, "..", "..", "node_modules"),
+    ];
     const webpackConfig = [
       {
         ...contentConfig,
@@ -69,25 +74,26 @@ export default class Run extends Command {
         mode: "development" as const,
         entry,
         plugins: [
-          ...files
-            .reduce(
-              (acc, filename) => ([
-                ...acc,
-                new HtmlWebpackPlugin({
-                  inject: "head",
-                  scriptLoading: "blocking",
-                  chunks: [selectEntrypoint(filename)],
-                  filename: selectEntrypoint(filename) + ".html",
-                  templateContent: buildHTML({
-                    staticMDX: "",
-                    script: "const MDXContent = docLoader.default;",
-                    mainScript: '<script src="https://quizzical-poincare-bb2498.netlify.app/main.js"></script>',
-                  }),
+          ...files.reduce(
+            (acc, filename) => [
+              ...acc,
+              new HtmlWebpackPlugin({
+                inject: "head",
+                scriptLoading: "blocking",
+                chunks: [selectEntrypoint(filename)],
+                filename: selectEntrypoint(filename) + ".html",
+                templateContent: buildHTML({
+                  staticMDX: "",
+                  script: "const MDXContent = docLoader.default;",
+                  mainScript:
+                    '<script src="https://quizzical-poincare-bb2498.netlify.app/main.js"></script>',
                 }),
-              ]), [])
-
+              }),
+            ],
+            []
+          ),
         ],
-      }
+      },
     ];
     const compiler = Webpack(webpackConfig);
     const devServerOptions = { ...webpackConfig[0].devServer, open: true };

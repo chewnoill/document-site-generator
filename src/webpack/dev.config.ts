@@ -26,7 +26,6 @@ function resolveFileList(folder) {
 
 const files = resolveFileList(folder);
 
-
 module.exports = [
   {
     ...mainConfig,
@@ -58,21 +57,20 @@ module.exports = [
       }, {}),
     },
     plugins: [
-      ...files
-        .map(
-          (filename) =>
-            new HtmlWebpackPlugin({
-              inject: "head",
-              scriptLoading: "blocking",
-              chunks: [selectEntrypoint(filename)],
-              filename: selectEntrypoint(filename) + ".html",
-              templateContent: buildHTML({
-                staticMDX: "",
-                script: "const MDXContent = docLoader.default;",
-                mainScript: '<script src="main.js"></script>',
-              }),
-            })
-        ),
+      ...files.map(
+        (filename) =>
+          new HtmlWebpackPlugin({
+            inject: "head",
+            scriptLoading: "blocking",
+            chunks: [selectEntrypoint(filename)],
+            filename: selectEntrypoint(filename) + ".html",
+            templateContent: buildHTML({
+              staticMDX: "",
+              script: "const MDXContent = docLoader.default;",
+              mainScript: '<script src="main.js"></script>',
+            }),
+          })
+      ),
     ],
   },
 ];

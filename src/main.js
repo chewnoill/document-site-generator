@@ -1,7 +1,7 @@
 import React from "react";
 import { MDXProvider, mdx } from "@mdx-js/react";
 import Code from "./components/code";
-import Wrapper from './wrapper';
+import Wrapper from "./wrapper";
 
 export { mdx };
 

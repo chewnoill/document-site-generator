@@ -2,22 +2,17 @@
 
 ## Getting Started
 
-Starting a local development server,
-to show a preview of your content in 
-a browser window.
 
-All mdx files in the designated folder
-will be included as entrypoints.
-
-
-```cmd
-// with npx
-npx document-site-builder dev <foldername>
+with npx:
+```bash
+npx document-site-builder -h
 ```
 
-
 ```bash
-$ document-site-builder -h
+document-site-builder -h
+```
+
+```
 USAGE
   $ document-site-builder [COMMAND]
 
@@ -28,10 +23,19 @@ COMMANDS
   help   display help for document-site-builder
 ```
 
-Running a dev server
+## Running a dev server
+
+Starting a local development server,
+to show a preview of your content in 
+a browser window.  
+All mdx files in the designated folder will be included as entrypoints.
+
 
 ```bash
-$ document-site-builder dev -h
+document-site-builder dev -h
+```
+
+```
 Runs a webpack development service to see changes you make locally
 
 USAGE
@@ -47,10 +51,13 @@ EXAMPLE
   $ document-site-builder dev docs
 ```
 
-Building static content
+## Building Static Bundle
 
 ```bash
-$ document-site-builder build -h
+document-site-builder build -h
+```
+
+```
 USAGE
   $ document-site-builder build FOLDER
 

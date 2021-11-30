@@ -1,26 +1,11 @@
 import { Command, flags } from "@oclif/command";
-import * as fs from "fs";
 import * as Webpack from "webpack";
 import * as WebpackDevServer from "webpack-dev-server";
 import HtmlWebpackPlugin = require("html-webpack-plugin");
 import { buildHTML } from "../mdx-template";
 import * as path from "path";
 import contentConfig from "../webpack/content-loader.config";
-
-function selectEntrypoint(filename: string) {
-  return path.basename(filename).split(".")[0];
-}
-
-function resolveFileList(folder) {
-  return fs.readdirSync(folder).reduce((acc, filename) => {
-    if (filename === "public") return acc;
-    const subPath = path.resolve(folder, filename);
-    if (fs.lstatSync(subPath).isFile()) {
-      return [...acc, subPath];
-    }
-    return [...acc, ...resolveFileList(subPath)];
-  }, []);
-}
+import { resolveFileList, selectEntrypoint } from "../utils";
 
 export default class Run extends Command {
   static description =
@@ -51,7 +36,7 @@ export default class Run extends Command {
     const entry = files.reduce((acc, filepath) => {
       return {
         ...acc,
-        [selectEntrypoint(filepath)]: filepath,
+        [selectEntrypoint(folder, filepath)]: filepath,
       };
     }, {});
 
@@ -80,8 +65,8 @@ export default class Run extends Command {
               new HtmlWebpackPlugin({
                 inject: "head",
                 scriptLoading: "blocking",
-                chunks: [selectEntrypoint(filename)],
-                filename: selectEntrypoint(filename) + ".html",
+                chunks: [selectEntrypoint(folder, filename)],
+                filename: selectEntrypoint(folder, filename) + "/index.html",
                 templateContent: buildHTML({
                   staticMDX: "",
                   script: "const MDXContent = docLoader.default;",

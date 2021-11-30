@@ -1,14 +1,10 @@
 import { Command, flags } from "@oclif/command";
-import * as fs from "fs";
 import HtmlWebpackPlugin = require("html-webpack-plugin");
 import * as Webpack from "webpack";
 import * as path from "path";
 import contentConfig from "../webpack/content-loader.config";
 import { buildHTML } from "../mdx-template";
-
-function selectEntrypoint(filename: string) {
-  return filename.split(".")[0];
-}
+import { resolveFileList, selectEntrypoint } from "../utils";
 
 export default class Run extends Command {
   static description = "Builds the contents of [FOLDER] ";
@@ -28,7 +24,7 @@ export default class Run extends Command {
     {
       name: "folder",
       required: true,
-      description: "folder to watch",
+      description: "folder to process",
       default: "docs",
     },
   ];
@@ -38,9 +34,10 @@ export default class Run extends Command {
 
     const folder = args.folder;
 
-    const files = fs.readdirSync(folder);
+    const files = resolveFileList(folder);
 
     const resolveModules = path.resolve(__dirname, "../..", "node_modules");
+
     const webpackConfig = [
       {
         ...contentConfig,
@@ -55,9 +52,9 @@ export default class Run extends Command {
         },
         entry: {
           ...files.reduce(
-            (acc, filename) => ({
+            (acc, filepath) => ({
               ...acc,
-              [selectEntrypoint(filename)]: "./" + folder + "/" + filename,
+              [selectEntrypoint(folder, filepath)]: filepath,
             }),
             {}
           ),
@@ -68,8 +65,8 @@ export default class Run extends Command {
               new HtmlWebpackPlugin({
                 inject: "head",
                 scriptLoading: "blocking",
-                chunks: [selectEntrypoint(filename)],
-                filename: selectEntrypoint(filename) + ".html",
+                chunks: [selectEntrypoint(folder, filename)],
+                filename: selectEntrypoint(folder, filename) + "/index.html",
                 templateContent: buildHTML({
                   staticMDX: "",
                   script: "const MDXContent = docLoader.default;",

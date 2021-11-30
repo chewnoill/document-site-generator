@@ -1,5 +1,10 @@
 import * as React from "react";
 import mermaid from "mermaid";
+import styled from "@emotion/styled";
+
+const Pre = styled.pre`
+  background: rgba(255, 255, 255, 0.5);
+`;
 
 mermaid.initialize({
   theme: "default",
@@ -25,9 +30,9 @@ export default React.memo(({ children }) => {
   }, [children]);
 
   return (
-    <>
+    <Pre>
       <div dangerouslySetInnerHTML={{ __html: content }} />
       {error && <pre>{children}</pre>}
-    </>
+    </Pre>
   );
 });

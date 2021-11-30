@@ -116,21 +116,6 @@ const Wrapper = styled.article`
     margin: 1em 0;
     padding: 0;
   }
-  pre,
-  code,
-  kbd,
-  samp {
-    color: #000;
-    font-family: monospace, monospace;
-    _font-family: "courier new", monospace;
-    font-size: 0.98em;
-  }
-  pre {
-    white-space: pre;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
-
   b,
   strong {
     font-weight: bold;
@@ -195,6 +180,12 @@ const Wrapper = styled.article`
   }
   td {
     vertical-align: top;
+  }
+
+  pre > pre {
+    border: 1px solid #999;
+    border-radius: 5px;
+    border-radius: 5px;
   }
 
   @media only screen and (min-width: 480px) {
@@ -269,32 +260,6 @@ const Wrapper = styled.article`
     h3 {
       page-break-after: avoid;
     }
-  }
-
-  code,
-  pre {
-    border-radius: 3px;
-    background-color: #f8f8f8;
-    color: inherit;
-  }
-
-  code {
-    border: 1px solid #eaeaea;
-    margin: 0 2px;
-    padding: 0 5px;
-  }
-
-  pre {
-    border: 1px solid #cccccc;
-    line-height: 1.25em;
-    overflow: auto;
-    padding: 6px 10px;
-  }
-
-  pre > code {
-    border: 0;
-    margin: 0;
-    padding: 0;
   }
 `;
 

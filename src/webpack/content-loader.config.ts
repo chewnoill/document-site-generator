@@ -33,7 +33,7 @@ export default {
               providerImportSource: "@mdx-js/react",
               renderer: "",
               remarkPlugins: [emoji],
-              rehypePlugins: [[rehypePrism, { ignoreMissing: true }]],
+              rehypePlugins: [],
             },
           },
         ],

@@ -1,5 +1,7 @@
 # Document Site Builder
 
+> An excersize in webpack configuration
+
 ## Getting Started
 
 

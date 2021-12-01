@@ -46,7 +46,9 @@ export default class Run extends Command {
 
     const resolveModules = [
       path.resolve(__dirname, "..", "..", "node_modules"),
+      path.resolve(__dirname, "..", "..", ".."),
     ];
+
     const webpackConfig = [
       {
         ...contentConfig,

@@ -8,10 +8,12 @@ with npx:
 npx document-site-builder -h
 ```
 
+with bash:
 ```bash
 document-site-builder -h
 ```
 
+## Help
 ```
 USAGE
   $ document-site-builder [COMMAND]
@@ -25,10 +27,7 @@ COMMANDS
 
 ## Running a dev server
 
-Starting a local development server,
-to show a preview of your content in 
-a browser window.  
-All mdx files in the designated folder will be included as entrypoints.
+Starting a local development server, to show a preview of your content in a browser window.  All mdx files in the designated folder will be included as entrypoints. 
 
 
 ```bash

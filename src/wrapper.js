@@ -170,10 +170,19 @@ const Wrapper = styled.article`
     vertical-align: middle;
   }
 
+  table, td, th {
+    border: 1px solid black; padding:10px;
+  }
+
+  thead {
+    background: lightgray;
+  }
+
   table {
     border-collapse: collapse;
     border-spacing: 0;
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
   }
   th {
     border-bottom: 1px solid black;

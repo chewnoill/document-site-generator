@@ -7,6 +7,13 @@ export function selectEntrypoint(folder: string, filename: string) {
     path.join(path.dirname(filename), path.basename(filename).split(".")[0])
   );
 }
+export function selectEntrypointHtml(folder: string, filename: string) {
+  const entryPath = selectEntrypoint(folder, filename);
+  if(entryPath=='index'){
+      return 'index.html'
+  }
+  return entryPath + '/index.html'
+}
 
 export function resolveFileList(folder) {
   return fs.readdirSync(folder).reduce((acc, filename) => {

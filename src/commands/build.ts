@@ -4,7 +4,7 @@ import * as Webpack from "webpack";
 import * as path from "path";
 import contentConfig from "../webpack/content-loader.config";
 import { buildHTML } from "../mdx-template";
-import { resolveFileList, selectEntrypoint } from "../utils";
+import { resolveFileList, selectEntrypoint, selectEntrypointHtml } from "../utils";
 
 export default class Run extends Command {
   static description = "Builds the contents of [FOLDER] ";
@@ -35,9 +35,8 @@ export default class Run extends Command {
     const folder = args.folder;
 
     const files = resolveFileList(folder);
-
     const resolveModules = path.resolve(__dirname, "../..", "node_modules");
-
+    const outputFolder = args.outputFolder || "out"
     const webpackConfig = [
       {
         ...contentConfig,
@@ -45,7 +44,7 @@ export default class Run extends Command {
         output: {
           ...contentConfig.output,
           filename: "[name].bundle.js",
-          path: path.resolve(folder, "..", args.outputFolder),
+          path: path.resolve(folder, "..", outputFolder),
         },
         resolveLoader: {
           modules: [resolveModules],
@@ -66,7 +65,7 @@ export default class Run extends Command {
                 inject: "head",
                 scriptLoading: "blocking",
                 chunks: [selectEntrypoint(folder, filename)],
-                filename: selectEntrypoint(folder, filename) + "/index.html",
+                filename: selectEntrypointHtml(folder, filename),
                 templateContent: buildHTML({
                   staticMDX: "",
                   script: "const MDXContent = docLoader.default;",

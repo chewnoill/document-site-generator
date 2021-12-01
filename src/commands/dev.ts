@@ -5,7 +5,7 @@ import HtmlWebpackPlugin = require("html-webpack-plugin");
 import { buildHTML } from "../mdx-template";
 import * as path from "path";
 import contentConfig from "../webpack/content-loader.config";
-import { resolveFileList, selectEntrypoint } from "../utils";
+import { resolveFileList, selectEntrypoint, selectEntrypointHtml } from "../utils";
 
 export default class Run extends Command {
   static description =
@@ -66,7 +66,7 @@ export default class Run extends Command {
                 inject: "head",
                 scriptLoading: "blocking",
                 chunks: [selectEntrypoint(folder, filename)],
-                filename: selectEntrypoint(folder, filename) + "/index.html",
+                filename: selectEntrypointHtml(folder, filename),
                 templateContent: buildHTML({
                   staticMDX: "",
                   script: "const MDXContent = docLoader.default;",

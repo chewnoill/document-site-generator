@@ -13,7 +13,7 @@ export default function Code({ className, children }) {
           useInlineStyles={true}
           language={lang}
           style={styles}
-          customStyle={{  background: "#F5F5F5"}}
+          customStyle={{ background: "#F5F5F5" }}
         >
           {children}
         </SyntaxHighlighter>

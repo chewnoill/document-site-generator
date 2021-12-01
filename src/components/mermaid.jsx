@@ -3,7 +3,7 @@ import mermaid from "mermaid";
 import styled from "@emotion/styled";
 
 const Pre = styled.pre`
-  background: #F5F5F5;
+  background: #f5f5f5;
 `;
 
 mermaid.initialize({

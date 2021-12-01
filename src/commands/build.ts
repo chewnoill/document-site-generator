@@ -4,7 +4,11 @@ import * as Webpack from "webpack";
 import * as path from "path";
 import contentConfig from "../webpack/content-loader.config";
 import { buildHTML } from "../mdx-template";
-import { resolveFileList, selectEntrypoint, selectEntrypointHtml } from "../utils";
+import {
+  resolveFileList,
+  selectEntrypoint,
+  selectEntrypointHtml,
+} from "../utils";
 
 export default class Run extends Command {
   static description = "Builds the contents of [FOLDER] ";
@@ -36,7 +40,7 @@ export default class Run extends Command {
 
     const files = resolveFileList(folder);
     const resolveModules = path.resolve(__dirname, "../..", "node_modules");
-    const outputFolder = args.outputFolder || "out"
+    const outputFolder = args.outputFolder || "out";
     const webpackConfig = [
       {
         ...contentConfig,

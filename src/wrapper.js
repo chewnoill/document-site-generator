@@ -170,8 +170,11 @@ const Wrapper = styled.article`
     vertical-align: middle;
   }
 
-  table, td, th {
-    border: 1px solid black; padding:10px;
+  table,
+  td,
+  th {
+    border: 1px solid black;
+    padding: 10px;
   }
 
   thead {

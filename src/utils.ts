@@ -9,10 +9,10 @@ export function selectEntrypoint(folder: string, filename: string) {
 }
 export function selectEntrypointHtml(folder: string, filename: string) {
   const entryPath = selectEntrypoint(folder, filename);
-  if(entryPath=='index'){
-      return 'index.html'
+  if (entryPath == "index") {
+    return "index.html";
   }
-  return entryPath + '/index.html'
+  return entryPath + "/index.html";
 }
 
 export function resolveFileList(folder) {

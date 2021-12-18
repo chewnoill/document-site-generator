@@ -3,6 +3,7 @@ import { MDXProvider, mdx } from "@mdx-js/react";
 import Code from "./components/code";
 import Wrapper from "./wrapper";
 import Box from "./components/box";
+import Stl from "./components/stl";
 
 export { mdx };
 
@@ -10,6 +11,7 @@ export const components = {
   code: Code,
   wrapper: Wrapper,
   Box,
+  Stl,
 };
 
 export function Provider({ children }) {

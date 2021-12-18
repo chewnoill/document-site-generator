@@ -10,6 +10,7 @@ import {
   selectEntrypoint,
   selectEntrypointHtml,
 } from "../utils";
+import buildFolder from "../webpack/content-builder.config";
 
 export default class Run extends Command {
   static description =
@@ -34,56 +35,14 @@ export default class Run extends Command {
     const { args } = this.parse(Run);
 
     const folder = path.resolve(args.folder);
-
-    const files = resolveFileList(folder);
-
-    const entry = files.reduce((acc, filepath) => {
-      return {
-        ...acc,
-        [selectEntrypoint(folder, filepath)]: filepath,
-      };
-    }, {});
-
-    const resolveModules = [
-      path.resolve(__dirname, "..", "..", "node_modules"),
-      path.resolve(__dirname, "..", "..", ".."),
-    ];
-
+    const config = buildFolder(folder,'out');
     const webpackConfig = [
       {
-        ...contentConfig,
-        output: {
-          ...contentConfig.output,
-          publicPath: "auto",
-        },
+        ...config,
         devServer: {
           port: 9000,
         },
-        resolveLoader: {
-          modules: resolveModules,
-        },
         mode: "development" as const,
-        entry,
-        plugins: [
-          ...files.reduce(
-            (acc, filename) => [
-              ...acc,
-              new HtmlWebpackPlugin({
-                inject: "head",
-                scriptLoading: "blocking",
-                chunks: [selectEntrypoint(folder, filename)],
-                filename: selectEntrypointHtml(folder, filename),
-                templateContent: buildHTML({
-                  staticMDX: "",
-                  script: "const MDXContent = docLoader.default;",
-                  mainScript:
-                    '<script src="https://quizzical-poincare-bb2498.netlify.app/main.js"></script>',
-                }),
-              }),
-            ],
-            []
-          ),
-        ],
       },
     ];
     const compiler = Webpack(webpackConfig);

@@ -5,11 +5,12 @@ import { buildHTML } from "../mdx-template";
 import contentConfig from "./content-loader.config";
 import mainConfig from "./main.config.js";
 import { selectEntrypoint, selectEntrypointHtml } from "../utils";
+import { buildRevealTemplate } from "../reveal-template";
 
-  const resolveModules = [
-    path.resolve(__dirname, "..", "..", "node_modules"),
-    path.resolve(__dirname, "..", "..", ".."),
-  ];
+const resolveModules = [
+  path.resolve(__dirname, "..", "..", "node_modules"),
+  path.resolve(__dirname, "..", "..", ".."),
+];
 
 const folder = "./docs";
 
@@ -49,20 +50,31 @@ module.exports = [
       }, {}),
     },
     plugins: [
-      ...files.map(
-        (filename) =>
-          new HtmlWebpackPlugin({
+      ...files.map((filename) => {
+        if (filename.endsWith(".slides.md")) {
+          return new HtmlWebpackPlugin({
             inject: "head",
             scriptLoading: "blocking",
-            chunks: [selectEntrypoint(folder, filename)],
+            chunks: [],
             filename: selectEntrypointHtml(folder, filename),
-            templateContent: buildHTML({
-              staticMDX: "",
-              script: "const MDXContent = docLoader.default;",
-              mainScript: '<script src="main.js"></script>',
+            templateContent: buildRevealTemplate({
+              script: '<script src="reveal.js"></script>',
+              markdown: fs.readFileSync(filename),
             }),
-          })
-      ),
+          });
+        }
+        return new HtmlWebpackPlugin({
+          inject: "head",
+          scriptLoading: "blocking",
+          chunks: [selectEntrypoint(folder, filename)],
+          filename: selectEntrypointHtml(folder, filename),
+          templateContent: buildHTML({
+            staticMDX: "",
+            script: "const MDXContent = docLoader.default;",
+            mainScript: '<script src="main.js"></script>',
+          }),
+        });
+      }),
     ],
   },
 ];

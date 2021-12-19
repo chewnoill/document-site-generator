@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import HtmlWebpackPlugin = require("html-webpack-plugin");
 import { buildHTML } from "../mdx-template";
 import * as path from "path";
@@ -7,9 +8,9 @@ import {
   selectEntrypoint,
   selectEntrypointHtml,
 } from "../utils";
+import { buildRevealTemplate } from "../reveal-template";
 
 export default function buildFolder(folder: string, outputFolder: string) {
-  
   const files = resolveFileList(folder);
 
   const entry = files.reduce((acc, filepath) => {
@@ -40,8 +41,23 @@ export default function buildFolder(folder: string, outputFolder: string) {
     mode: "development" as const,
     entry,
     plugins: [
-      ...files.reduce(
-        (acc, filename) => [
+      ...files.reduce((acc, filename: string) => {
+        if (filename.endsWith(".slides.md")) {
+          return [
+            ...acc,
+            new HtmlWebpackPlugin({
+              inject: "head",
+              chunks: [],
+              filename: selectEntrypointHtml(folder, filename),
+              templateContent: buildRevealTemplate({
+                script:
+                  '<script src="https://quizzical-poincare-bb2498.netlify.app/reveal.js"></script>',
+                markdown: fs.readFileSync(filename),
+              }),
+            }),
+          ];
+        }
+        return [
           ...acc,
           new HtmlWebpackPlugin({
             inject: "head",
@@ -55,9 +71,8 @@ export default function buildFolder(folder: string, outputFolder: string) {
                 '<script src="https://quizzical-poincare-bb2498.netlify.app/main.js"></script>',
             }),
           }),
-        ],
-        []
-      ),
+        ];
+      }, []),
     ],
   };
   return webpackConfig;

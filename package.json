@@ -1,6 +1,6 @@
 {
   "name": "document-site-builder",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "author": "Will Cohen <chewnoill@gmail.com>",
   "scripts": {
     "prepublish": "rm -rf lib && tsc",

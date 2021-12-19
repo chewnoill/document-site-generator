@@ -17,6 +17,10 @@ export default {
         type: "asset/resource",
       },
       {
+        test: /\.slides.md$/,
+        type: "asset/resource",
+      },
+      {
         test: /\.mdx?$/,
         use: [
           {

@@ -11,6 +11,7 @@ export default {
   },
   entry: {
     main: "./src/main.js",
+    reveal: "./src/reveal.js",
   },
   resolve: {
     extensions: [".js", ".jsx"],

@@ -9,6 +9,7 @@ import {
 } from "../utils";
 
 export default function buildFolder(folder: string, outputFolder: string) {
+  
   const files = resolveFileList(folder);
 
   const entry = files.reduce((acc, filepath) => {

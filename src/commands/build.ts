@@ -1,14 +1,7 @@
 import { Command, flags } from "@oclif/command";
 import HtmlWebpackPlugin = require("html-webpack-plugin");
 import * as Webpack from "webpack";
-import * as path from "path";
 import buildFolder from "../webpack/content-builder.config";
-import { buildHTML } from "../mdx-template";
-import {
-  resolveFileList,
-  selectEntrypoint,
-  selectEntrypointHtml,
-} from "../utils";
 
 export default class Run extends Command {
   static description = "Builds the contents of [FOLDER] ";

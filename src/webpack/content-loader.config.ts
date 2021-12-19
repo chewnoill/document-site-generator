@@ -1,5 +1,4 @@
 import * as emoji from "remark-emoji";
-import rehypePrism from "@mapbox/rehype-prism";
 
 export default {
   output: {

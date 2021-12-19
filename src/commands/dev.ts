@@ -1,15 +1,7 @@
 import { Command, flags } from "@oclif/command";
 import * as Webpack from "webpack";
 import * as WebpackDevServer from "webpack-dev-server";
-import HtmlWebpackPlugin = require("html-webpack-plugin");
-import { buildHTML } from "../mdx-template";
 import * as path from "path";
-import contentConfig from "../webpack/content-loader.config";
-import {
-  resolveFileList,
-  selectEntrypoint,
-  selectEntrypointHtml,
-} from "../utils";
 import buildFolder from "../webpack/content-builder.config";
 
 export default class Run extends Command {

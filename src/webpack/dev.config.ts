@@ -6,7 +6,10 @@ import contentConfig from "./content-loader.config";
 import mainConfig from "./main.config.js";
 import { selectEntrypoint, selectEntrypointHtml } from "../utils";
 
-const resolveModules = path.resolve(__dirname, "..", "..", "node_modules");
+  const resolveModules = [
+    path.resolve(__dirname, "..", "..", "node_modules"),
+    path.resolve(__dirname, "..", "..", ".."),
+  ];
 
 const folder = "./docs";
 
@@ -27,12 +30,8 @@ module.exports = [
   {
     ...mainConfig,
     mode: "development",
-    output: {
-      ...mainConfig.output,
-      path: path.resolve(__dirname, "out"),
-    },
     resolveLoader: {
-      modules: [resolveModules],
+      modules: resolveModules,
     },
     devServer: {
       port: 9000,
@@ -40,10 +39,6 @@ module.exports = [
   },
   {
     ...contentConfig,
-    output: {
-      ...contentConfig.output,
-      publicPath: "auto",
-    },
     mode: "development",
     entry: {
       ...files.reduce((acc, filePath) => {

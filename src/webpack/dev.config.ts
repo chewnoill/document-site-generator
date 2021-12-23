@@ -71,7 +71,7 @@ module.exports = [
           templateContent: buildHTML({
             staticMDX: "",
             script: "const MDXContent = docLoader.default;",
-            mainScript: '<script src="main.js"></script>',
+            mainScript: '<script src="/main.js"></script>',
           }),
         });
       }),

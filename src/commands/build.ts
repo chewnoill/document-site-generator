@@ -1,5 +1,4 @@
 import { Command, flags } from "@oclif/command";
-import HtmlWebpackPlugin = require("html-webpack-plugin");
 import * as Webpack from "webpack";
 import buildFolder from "../webpack/content-builder.config";
 
@@ -32,13 +31,7 @@ export default class Run extends Command {
     const outputFolder = args.outputFolder || "out";
     const config = buildFolder(args.folder, outputFolder);
 
-    const webpackConfig = [
-      {
-        ...config,
-        mode: "development" as const,
-      },
-    ];
-    Webpack(webpackConfig).run(() => {
+    Webpack(config).run(() => {
       console.log("done...");
     });
   }

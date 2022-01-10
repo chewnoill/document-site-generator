@@ -1,7 +1,8 @@
 import * as fs from "fs";
-import HtmlWebpackPlugin = require("html-webpack-plugin");
-import { buildHTML } from "../mdx-template";
+import * as HtmlWebpackPlugin from "html-webpack-plugin";
+import { RenderPlugin } from "./plugin";
 import * as path from "path";
+import staticContentConfig from "./content-loader-static.config";
 import contentConfig from "./content-loader.config";
 import {
   resolveFileList,
@@ -9,10 +10,10 @@ import {
   selectEntrypointHtml,
 } from "../utils";
 import { buildRevealTemplate } from "../reveal-template";
+import mainConfig from "./main.config";
 
 export default function buildFolder(folder: string, outputFolder: string) {
   const files = resolveFileList(folder);
-
   const entry = files.reduce((acc, filepath) => {
     return {
       ...acc,
@@ -25,55 +26,69 @@ export default function buildFolder(folder: string, outputFolder: string) {
     path.resolve(__dirname, "..", "..", ".."),
   ];
 
-  const webpackConfig = {
-    ...contentConfig,
-    output: {
-      ...contentConfig.output,
-      publicPath: "auto",
-      path: path.resolve(folder, "..", outputFolder),
+  const webpackConfig = [
+    {
+      ...mainConfig,
+      mode: "development" as const,
+      resolveLoader: {
+        modules: resolveModules,
+      },
+      devServer: {
+        port: 9000,
+      },
     },
-    devServer: {
-      port: 9000,
-    },
-    resolveLoader: {
-      modules: resolveModules,
-    },
-    mode: "development" as const,
-    entry,
-    plugins: [
-      ...files.reduce((acc, filename: string) => {
-        if (filename.endsWith(".slides.md")) {
-          return [
-            ...acc,
-            new HtmlWebpackPlugin({
-              inject: "head",
-              chunks: [],
-              filename: selectEntrypointHtml(folder, filename),
-              templateContent: buildRevealTemplate({
-                script:
-                  '<script src="https://quizzical-poincare-bb2498.netlify.app/reveal.js"></script>',
-                markdown: fs.readFileSync(filename),
+    {
+      ...contentConfig,
+      output: {
+        ...contentConfig.output,
+        path: path.resolve(folder, "..", outputFolder),
+      },
+      devServer: {
+        port: 9000,
+      },
+      resolveLoader: {
+        modules: resolveModules,
+      },
+      mode: "production" as const,
+      entry,
+      plugins: [
+        ...files
+          .filter((filename) => filename.endsWith(".slides.md"))
+          .reduce(
+            (acc, filename: string) => [
+              ...acc,
+              new HtmlWebpackPlugin({
+                inject: "head",
+                chunks: [],
+                filename: selectEntrypointHtml(folder, filename),
+                templateContent: buildRevealTemplate({
+                  script:
+                    '<script src="https://quizzical-poincare-bb2498.netlify.app/reveal.js"></script>',
+                  markdown: fs.readFileSync(filename),
+                }),
               }),
-            }),
-          ];
-        }
-        return [
-          ...acc,
-          new HtmlWebpackPlugin({
-            inject: "head",
-            scriptLoading: "blocking",
-            chunks: [selectEntrypoint(folder, filename)],
-            filename: selectEntrypointHtml(folder, filename),
-            templateContent: buildHTML({
-              staticMDX: "",
-              script: "const MDXContent = docLoader.default;",
-              mainScript:
-                '<script src="https://quizzical-poincare-bb2498.netlify.app/main.js"></script>',
-            }),
-          }),
-        ];
-      }, []),
-    ],
-  };
+            ],
+            []
+          ),
+      ],
+    },
+    {
+      ...staticContentConfig,
+      entry,
+      plugins: [
+        ...files
+          .filter((f) => !f.endsWith("slides.md"))
+          .map(
+            (filename) =>
+              new RenderPlugin({
+                entrypoint: selectEntrypoint(folder, filename),
+                filename: selectEntrypointHtml(folder, filename),
+                mainUrl:
+                  "https://quizzical-poincare-bb2498.netlify.app/main.js",
+              })
+          ),
+      ],
+    },
+  ];
   return webpackConfig;
 }

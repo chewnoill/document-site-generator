@@ -28,22 +28,22 @@ export default class Run extends Command {
 
     const folder = path.resolve(args.folder);
     const config = buildFolder(folder, "out");
-    const webpackConfig = [
-      {
-        ...config,
-        devServer: {
-          port: 9000,
-        },
-        mode: "development" as const,
-      },
-    ];
-    const compiler = Webpack(webpackConfig);
-    const devServerOptions = { ...webpackConfig[0].devServer, open: true };
-    const server = new WebpackDevServer(devServerOptions, compiler);
-
-    const runServer = async () => {
-      await server.start();
-    };
-    runServer();
+    const webpackConfig = [...config];
+    try {
+      const compiler = Webpack(webpackConfig);
+      const devServerOptions = {
+        port: 9000,
+        open: true,
+      };
+      const server = new WebpackDevServer(devServerOptions, compiler);
+      const runServer = async () => {
+        await server.start();
+      };
+      runServer().catch((error) => {
+        console.log({ error });
+      });
+    } catch (e) {
+      console.log({ error: e });
+    }
   }
 }

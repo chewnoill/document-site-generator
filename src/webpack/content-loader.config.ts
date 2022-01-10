@@ -5,6 +5,7 @@ export default {
     library: "docLoader",
     libraryTarget: "umd",
     globalObject: "this",
+    publicPath: "",
   },
   externals: {
     react: "React",

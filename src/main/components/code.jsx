@@ -1,3 +1,4 @@
+import React from "react";
 import Mermaid from "./mermaid";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { prism as styles } from "react-syntax-highlighter/dist/esm/styles/prism";

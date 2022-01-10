@@ -11,10 +11,11 @@
     "version": "oclif-dev readme && git add README.md",
     "predev": "tsc",
     "dev": "webpack serve --config lib/webpack/dev.config.js",
+    "build": "tsc && cp -R src/main lib/",
     "dev:run": "./bin/run",
     "build:osx": "oclif-dev pack:macos",
     "build:deb": "oclif-dev pack:deb",
-    "build:static": "tsc && webpack --config lib/webpack/main-prod.config.js",
+    "build:static": "yarn build && webpack --config lib/webpack/main-prod.config.js",
     "build:docs": "yarn dev:run build docs",
     "format": "prettier -w src/*"
   },

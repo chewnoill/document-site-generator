@@ -5,12 +5,9 @@ export default {
     libraryTarget: "umd",
     globalObject: "this",
   },
-  externals: {
-    react: "React",
-    "react-dom": "ReactDOM",
-  },
+  externals: {},
   entry: {
-    main: "./src/main.js",
+    main: "./lib/main/index.js",
     reveal: "./src/reveal.js",
   },
   resolve: {

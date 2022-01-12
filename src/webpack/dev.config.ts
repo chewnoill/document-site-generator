@@ -7,11 +7,6 @@ import { selectEntrypoint, selectEntrypointHtml } from "../utils";
 import { buildRevealTemplate } from "../reveal-template";
 import { RenderPlugin } from "./plugin";
 
-const resolveModules = [
-  path.resolve(__dirname, "..", "..", "node_modules"),
-  path.resolve(__dirname, "..", "..", ".."),
-];
-
 const folder = "./docs";
 
 function resolveFileList(folder) {
@@ -31,9 +26,6 @@ module.exports = [
   {
     ...mainConfig,
     mode: "development",
-    resolveLoader: {
-      modules: resolveModules,
-    },
     devServer: {
       port: 9000,
     },
@@ -58,9 +50,8 @@ module.exports = [
       ...files.map(
         (filename) =>
           new RenderPlugin({
-            entrypoint: selectEntrypoint(folder, filename),
-            filename: selectEntrypointHtml(folder, filename),
-            mainUrl: "/main.js",
+            folder,
+            filename,
           })
       ),
     ],

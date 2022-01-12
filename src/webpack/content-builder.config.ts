@@ -8,6 +8,7 @@ import {
   resolveFileList,
   selectEntrypoint,
   selectEntrypointHtml,
+  selectRelativeMain,
 } from "../utils";
 import { buildRevealTemplate } from "../reveal-template";
 import mainConfig from "./main.config";
@@ -26,27 +27,12 @@ export default function buildFolder(folder: string, outputFolder: string) {
     path.resolve(__dirname, "..", "..", ".."),
   ];
 
-  console.log('module resolution path:',resolveModules)
-
   const webpackConfig = [
-    {
-      ...mainConfig,
-      mode: "development" as const,
-      resolveLoader: {
-        modules: resolveModules,
-      },
-      devServer: {
-        port: 9000,
-      },
-    },
     {
       ...contentConfig,
       output: {
         ...contentConfig.output,
         path: path.resolve(folder, "..", outputFolder),
-      },
-      devServer: {
-        port: 9000,
       },
       resolveLoader: {
         modules: resolveModules,
@@ -77,16 +63,17 @@ export default function buildFolder(folder: string, outputFolder: string) {
     {
       ...staticContentConfig,
       entry,
+      resolveLoader: {
+        modules: resolveModules,
+      },
       plugins: [
         ...files
           .filter((f) => !f.endsWith("slides.md"))
           .map(
             (filename) =>
               new RenderPlugin({
-                entrypoint: selectEntrypoint(folder, filename),
-                filename: selectEntrypointHtml(folder, filename),
-                mainUrl:
-                  "https://quizzical-poincare-bb2498.netlify.app/main.js",
+                folder,
+                filename,
               })
           ),
       ],

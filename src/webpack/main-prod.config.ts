@@ -1,18 +1,13 @@
 import * as path from "path";
 import mainConfig from "./main.config";
 
-const resolveModules = path.resolve(__dirname, "..", "..", "node_modules");
-
-module.exports = {
+export default {
   ...mainConfig,
-  mode: "production",
+  mode: "production" as const,
   output: {
-    path: path.resolve(resolveModules, "..", "out"),
+    path: path.resolve(__dirname, "..", "..", "lib"),
     library: "main",
     libraryTarget: "umd",
     globalObject: "this",
-  },
-  resolveLoader: {
-    modules: [resolveModules],
   },
 };

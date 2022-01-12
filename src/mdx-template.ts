@@ -2,6 +2,8 @@ import * as Handlebars from "handlebars";
 
 const template = Handlebars.compile(`<html>
 <head>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
   {{{mainScript}}}
 </head> 
 <body>

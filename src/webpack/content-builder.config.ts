@@ -26,6 +26,8 @@ export default function buildFolder(folder: string, outputFolder: string) {
     path.resolve(__dirname, "..", "..", ".."),
   ];
 
+  console.log('module resolution path:',resolveModules)
+
   const webpackConfig = [
     {
       ...mainConfig,

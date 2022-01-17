@@ -63,7 +63,7 @@ export class RenderPlugin {
         m.exports.default({ components })
       );
       const content = buildHTML({
-        staticMDX: "", //staticReactContent.trim(),
+        staticMDX: staticReactContent.trim(),
         script: "const MDXContent = docLoader.default;",
         mainScript: [
           `<script src="${mainUrl}"></script>`,

@@ -54,7 +54,6 @@ export class RenderPlugin {
       const Module: any = module.constructor;
       const m = new Module();
       m.mdx = mdx;
-      m.React = React;
       m._compile(`const mdx=module.mdx;` + source, nodeSourceJs);
       if (!m.exports?.default) {
         return;

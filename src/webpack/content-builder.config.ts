@@ -8,10 +8,8 @@ import {
   resolveFileList,
   selectEntrypoint,
   selectEntrypointHtml,
-  selectRelativeMain,
 } from "../utils";
 import { buildRevealTemplate } from "../reveal-template";
-import mainConfig from "./main.config";
 
 export default function buildFolder(folder: string, outputFolder: string) {
   const files = resolveFileList(folder);

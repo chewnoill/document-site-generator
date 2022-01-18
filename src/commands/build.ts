@@ -1,4 +1,5 @@
 import { Command, flags } from "@oclif/command";
+import path = require("path");
 import * as Webpack from "webpack";
 import buildFolder from "../webpack/content-builder.config";
 import mainConfig from "../webpack/main.config";
@@ -30,7 +31,8 @@ export default class Run extends Command {
     const { args } = this.parse(Run);
 
     const outputFolder = args.outputFolder || "out";
-    const config = buildFolder(args.folder, outputFolder);
+    const folder = path.resolve(args.folder);
+    const config = buildFolder(folder, outputFolder);
 
     Webpack([mainConfig, ...config]).run(() => {
       console.log("done...");

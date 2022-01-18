@@ -25,12 +25,14 @@ export default function buildFolder(folder: string, outputFolder: string) {
     path.resolve(__dirname, "..", "..", ".."),
   ];
 
+  const outputPath = path.resolve(folder, "..", outputFolder);
+
   const webpackConfig = [
     {
       ...contentConfig,
       output: {
         ...contentConfig.output,
-        path: path.resolve(folder, "..", outputFolder),
+        path: outputPath,
       },
       resolveLoader: {
         modules: resolveModules,
@@ -60,6 +62,10 @@ export default function buildFolder(folder: string, outputFolder: string) {
     },
     {
       ...staticContentConfig,
+      output: {
+        ...staticContentConfig.output,
+        path: outputPath,
+      },
       entry,
       resolveLoader: {
         modules: resolveModules,

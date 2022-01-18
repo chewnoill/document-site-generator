@@ -8,8 +8,8 @@ export function selectEntrypoint(folder: string, filename: string) {
   );
 }
 export function selectRelativeJs(folder: string, filename: string) {
-  const prefix = path.relative(path.dirname(filename), folder) || '.';
-  const entrypoint = selectEntrypoint(folder, filename) ;
+  const prefix = path.relative(filename, folder) || '.';
+  const entrypoint = selectEntrypoint(folder, filename);
   return (
     prefix +
     "/" +
@@ -26,7 +26,12 @@ export function selectEntrypointHtml(folder: string, filename: string) {
 }
 
 export function selectRelativeMain(folder: string, filename: string) {
-  return path.join(path.relative(path.dirname(filename), folder), "main.js");
+  const entryPath = selectEntrypoint(folder, filename);
+  if (entryPath == "index") {
+    return './main.js';
+  }
+  const prefix = path.relative(filename, folder);
+  return path.join(prefix, "main.js");
 }
 
 export function resolveFileList(folder) {

@@ -10,6 +10,7 @@ import {
   selectEntrypointHtml,
 } from "../utils";
 import { buildRevealTemplate } from "../reveal-template";
+import mainConfig from "./main.config";
 
 function selectEntry(folder) {
   return (acc, filepath) => ({
@@ -34,6 +35,13 @@ export default function buildFolder(folder: string, outputFolder: string) {
   const outputPath = path.resolve(folder, "..", outputFolder);
 
   const webpackConfig = [
+    {
+      ...mainConfig,
+      output: {
+        ...mainConfig.output,
+        path: outputPath,
+      },
+    },
     {
       ...contentConfig,
       output: {

@@ -28,8 +28,7 @@ export default class Run extends Command {
     const { args } = this.parse(Run);
 
     const folder = path.resolve(args.folder);
-    const config = buildFolder(folder, "out");
-    const webpackConfig: any = [mainConfig, ...config];
+    const webpackConfig = buildFolder(folder, "out");
     try {
       const compiler = Webpack(webpackConfig);
       const devServerOptions = {

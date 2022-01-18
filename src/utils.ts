@@ -8,10 +8,12 @@ export function selectEntrypoint(folder: string, filename: string) {
   );
 }
 export function selectRelativeJs(folder: string, filename: string) {
+  const prefix = path.relative(path.dirname(filename), folder) || '.';
+  const entrypoint = selectEntrypoint(folder, filename) ;
   return (
-    path.relative(path.dirname(filename), folder) +
+    prefix +
     "/" +
-    selectEntrypoint(folder, filename) +
+    entrypoint +
     ".js"
   );
 }

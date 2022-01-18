@@ -69,6 +69,7 @@ export class RenderPlugin {
           `<script src="${sourceJs}"></script>`,
         ].join(""),
       });
+      params.deleteAsset(nodeSourceJs);
 
       compiler.hooks.emit.tap(pluginName, (compilation) => {
         if (compilation.assets[destHtml]) {

@@ -1,6 +1,6 @@
 {
   "name": "document-site-builder",
-  "version": "1.0.16-rc13",
+  "version": "1.0.16-rc14",
   "author": "Will Cohen <chewnoill@gmail.com>",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",

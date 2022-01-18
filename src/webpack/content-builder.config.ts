@@ -11,14 +11,20 @@ import {
 } from "../utils";
 import { buildRevealTemplate } from "../reveal-template";
 
+function selectEntry(folder) {
+  return (acc, filepath) => ({
+    ...acc,
+    [selectEntrypoint(folder, filepath)]: filepath,
+  });
+}
+
 export default function buildFolder(folder: string, outputFolder: string) {
   const files = resolveFileList(folder);
-  const entry = files.reduce((acc, filepath) => {
-    return {
-      ...acc,
-      [selectEntrypoint(folder, filepath)]: filepath,
-    };
-  }, {});
+  const slides = files.filter((filename) => filename.endsWith(".slides.md"));
+  const pages = files.filter((filename) => !filename.endsWith(".slides.md"));
+  const entryPages = pages.reduce(selectEntry(folder), {});
+  // we need to build js bundles for all entrypoints
+  const entrySlides = files.reduce(selectEntry(folder), {});
 
   const resolveModules = [
     path.resolve(__dirname, "..", "..", "node_modules"),
@@ -38,26 +44,24 @@ export default function buildFolder(folder: string, outputFolder: string) {
         modules: resolveModules,
       },
       mode: "production" as const,
-      entry,
+      entry: entrySlides,
       plugins: [
-        ...files
-          .filter((filename) => filename.endsWith(".slides.md"))
-          .reduce(
-            (acc, filename: string) => [
-              ...acc,
-              new HtmlWebpackPlugin({
-                inject: "head",
-                chunks: [],
-                filename: selectEntrypointHtml(folder, filename),
-                templateContent: buildRevealTemplate({
-                  script:
-                    '<script src="https://quizzical-poincare-bb2498.netlify.app/reveal.js"></script>',
-                  markdown: fs.readFileSync(filename),
-                }),
+        ...slides.reduce(
+          (acc, filename: string) => [
+            ...acc,
+            new HtmlWebpackPlugin({
+              inject: "head",
+              chunks: [],
+              filename: selectEntrypointHtml(folder, filename),
+              templateContent: buildRevealTemplate({
+                script:
+                  '<script src="https://quizzical-poincare-bb2498.netlify.app/reveal.js"></script>',
+                markdown: fs.readFileSync(filename),
               }),
-            ],
-            []
-          ),
+            }),
+          ],
+          []
+        ),
       ],
     },
     {
@@ -66,20 +70,18 @@ export default function buildFolder(folder: string, outputFolder: string) {
         ...staticContentConfig.output,
         path: outputPath,
       },
-      entry,
+      entry: entryPages,
       resolveLoader: {
         modules: resolveModules,
       },
       plugins: [
-        ...files
-          .filter((f) => !f.endsWith("slides.md"))
-          .map(
-            (filename) =>
-              new RenderPlugin({
-                folder,
-                filename,
-              })
-          ),
+        ...pages.map(
+          (filename) =>
+            new RenderPlugin({
+              folder,
+              filename,
+            })
+        ),
       ],
     },
   ];

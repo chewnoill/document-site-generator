@@ -10,12 +10,12 @@ export function selectEntrypoint(folder: string, filename: string) {
 export function selectRelativeJs(folder: string, filename: string) {
   const prefix = path.relative(filename, folder) || ".";
   const entrypoint = selectEntrypoint(folder, filename);
-  if(entrypoint==='index') return './index.js';
+  if (entrypoint === "index") return "./index.js";
   return prefix + "/" + entrypoint + ".js";
 }
 export function selectEntrypointHtml(folder: string, filename: string) {
   const entryPath = selectEntrypoint(folder, filename);
-  if (entryPath == "index") {
+  if (entryPath === "index") {
     return "index.html";
   }
   if (entryPath.endsWith("index")) {
@@ -26,8 +26,8 @@ export function selectEntrypointHtml(folder: string, filename: string) {
 
 export function selectRelativeMain(folder: string, filename: string) {
   const entryPath = selectEntrypoint(folder, filename);
-  if (entryPath == "index") {
-    return './main.js';
+  if (entryPath === "index") {
+    return "./main.js";
   }
   const prefix = path.relative(filename, folder);
   return path.join(prefix, "main.js");

@@ -19,7 +19,11 @@ function selectEntry(folder) {
   });
 }
 
-export default function buildFolder(folder: string, outputFolder: string) {
+export default function buildFolder(
+  folder: string,
+  outputFolder: string,
+  publicPath: string
+) {
   const files = resolveFileList(folder);
   const slides = files.filter((filename) => filename.endsWith(".slides.md"));
   const pages = files.filter((filename) => !filename.endsWith(".slides.md"));
@@ -47,6 +51,7 @@ export default function buildFolder(folder: string, outputFolder: string) {
       output: {
         ...contentConfig.output,
         path: outputPath,
+        publicPath,
       },
       resolveLoader: {
         modules: resolveModules,
@@ -77,6 +82,7 @@ export default function buildFolder(folder: string, outputFolder: string) {
       output: {
         ...staticContentConfig.output,
         path: outputPath,
+        publicPath,
       },
       entry: entryPages,
       resolveLoader: {

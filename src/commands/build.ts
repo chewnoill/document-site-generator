@@ -16,6 +16,11 @@ export default class Run extends Command {
       default: "out",
       helpValue: "output folder",
     }),
+    publicPath: flags.string({
+      char: "p",
+      default: "/docs",
+      helpValue: "publicPath for assets",
+    }),
   };
 
   static args = [
@@ -31,8 +36,9 @@ export default class Run extends Command {
     const { args } = this.parse(Run);
 
     const outputFolder = args.outputFolder || "out";
+    const publicPath = args.publicPath || "/docs/";
     const folder = path.resolve(args.folder);
-    const config = buildFolder(folder, outputFolder);
+    const config = buildFolder(folder, outputFolder, publicPath);
 
     Webpack(config).run(() => {
       console.log("done...");

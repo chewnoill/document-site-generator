@@ -8,14 +8,10 @@ export function selectEntrypoint(folder: string, filename: string) {
   );
 }
 export function selectRelativeJs(folder: string, filename: string) {
-  const prefix = path.relative(filename, folder) || '.';
+  const prefix = path.relative(filename, folder) || ".";
   const entrypoint = selectEntrypoint(folder, filename);
-  return (
-    prefix +
-    "/" +
-    entrypoint +
-    ".js"
-  );
+  if(entrypoint==='index') return './index.js';
+  return prefix + "/" + entrypoint + ".js";
 }
 export function selectEntrypointHtml(folder: string, filename: string) {
   const entryPath = selectEntrypoint(folder, filename);

@@ -13,7 +13,6 @@ export function selectAbsJs(publicPath:string, folder: string, filename: string)
 }
 export function selectEntrypointHtml(publicPath: string, folder: string, filename: string) {
   const entryPath = selectEntrypoint(folder, filename);
-  console.log({publicPath, entryPath})
   if (entryPath.endsWith("index")) {
     return publicPath+entryPath + ".html";
   }

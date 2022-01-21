@@ -33,10 +33,10 @@ export default class Run extends Command {
   ];
 
   async run() {
-    const { args } = this.parse(Run);
+    const { args, flags } = this.parse(Run);
 
-    const outputFolder = args.outputFolder || "out";
-    const publicPath = args.publicPath || "/docs/";
+    const outputFolder = flags.outputFolder || "out";
+    const publicPath = flags.publicPath || "/docs/";
     const folder = path.resolve(args.folder);
     const config = buildFolder(folder, outputFolder, publicPath);
 

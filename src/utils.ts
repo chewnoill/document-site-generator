@@ -22,6 +22,9 @@ export function selectEntrypointHtml(folder: string, filename: string) {
   if (entryPath == "index") {
     return "index.html";
   }
+  if (entryPath.endsWith("index")) {
+    return entryPath + ".html";
+  }
   return entryPath + "/index.html";
 }
 

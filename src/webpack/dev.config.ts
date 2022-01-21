@@ -2,88 +2,20 @@ import * as path from "path";
 import * as fs from "fs";
 import * as HtmlWebpackPlugin from "html-webpack-plugin";
 import contentConfig from "./content-loader.config";
-import mainConfig from "./main.config.js";
-import { selectEntrypoint, selectEntrypointHtml } from "../utils";
-import { buildRevealTemplate } from "../reveal-template";
-import { RenderPlugin } from "./plugin";
+import staticContentConfig from "./content-loader-static.config";
+import buildFolder from "./content-builder.config";
 
 const folder = "./docs";
 
-function resolveFileList(folder) {
-  return fs.readdirSync(folder).reduce((acc, filename) => {
-    if (filename === "public") return acc;
-    const subPath = path.resolve(folder, filename);
-    if (fs.lstatSync(subPath).isFile()) {
-      return [...acc, subPath];
-    }
-    return [...acc, ...resolveFileList(subPath)];
-  }, []);
-}
-
-const files = resolveFileList(folder);
+const webpackConfig = buildFolder(folder, "out", '/');
 
 module.exports = [
   {
-    ...mainConfig,
+    ...webpackConfig[0],
     mode: "development",
     devServer: {
       port: 9000,
     },
   },
-  {
-    ...contentConfig,
-    output: {
-      ...contentConfig.output,
-      filename: "[name].node.js",
-    },
-    mode: "production",
-    target: "node",
-    entry: {
-      ...files.reduce((acc, filePath) => {
-        return {
-          ...acc,
-          [selectEntrypoint(folder, filePath)]: filePath,
-        };
-      }, {}),
-    },
-    plugins: [
-      ...files.map(
-        (filename) =>
-          new RenderPlugin({
-            folder,
-            filename,
-          })
-      ),
-    ],
-  },
-  {
-    ...contentConfig,
-    mode: "development",
-    entry: {
-      ...files.reduce((acc, filePath) => {
-        return {
-          ...acc,
-          [selectEntrypoint(folder, filePath)]: filePath,
-        };
-      }, {}),
-    },
-    plugins: [
-      ...files
-        .map((filename) => {
-          if (filename.endsWith(".slides.md")) {
-            return new HtmlWebpackPlugin({
-              inject: "head",
-              scriptLoading: "blocking",
-              chunks: [],
-              filename: selectEntrypointHtml(folder, filename),
-              templateContent: buildRevealTemplate({
-                script: '<script src="reveal.js"></script>',
-                markdown: fs.readFileSync(filename),
-              }),
-            });
-          }
-        })
-        .filter((plugin) => !!plugin),
-    ],
-  },
+  ...webpackConfig.slice(1)
 ];

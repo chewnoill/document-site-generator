@@ -4,10 +4,10 @@ import * as ReactDOMServer from "react-dom/server";
 import { mdx } from "@mdx-js/react";
 import Wrapper from "../main/wrapper";
 import {
+  selectAbsJs,
+  selectAbsMain,
   selectEntrypoint,
   selectEntrypointHtml,
-  selectRelativeJs,
-  selectRelativeMain,
 } from "../utils";
 
 const components = { wrapper: Wrapper };
@@ -15,12 +15,14 @@ const components = { wrapper: Wrapper };
 type Options = {
   folder: string;
   filename: string;
+  publicPath: string;
 };
 
 export class RenderPlugin {
   static defaultOptions: Options = {
     folder: "docs",
     filename: "index.md",
+    publicPath: "/",
   };
   private options: Options;
 
@@ -32,17 +34,20 @@ export class RenderPlugin {
     const pluginName = RenderPlugin.name;
     const { webpack } = compiler;
     const { RawSource } = webpack.sources;
-    const sourceJs = selectRelativeJs(
+    const sourceJs = selectAbsJs(
+      this.options.publicPath,
       this.options.folder,
       this.options.filename
     );
     const nodeSourceJs =
       selectEntrypoint(this.options.folder, this.options.filename) + ".node.js";
     const destHtml = selectEntrypointHtml(
+      this.options.publicPath,
       this.options.folder,
       this.options.filename
     );
-    const mainUrl = selectRelativeMain(
+    const mainUrl = selectAbsMain(
+      this.options.publicPath,
       this.options.folder,
       this.options.filename
     );

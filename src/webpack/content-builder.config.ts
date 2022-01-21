@@ -65,7 +65,7 @@ export default function buildFolder(
             new HtmlWebpackPlugin({
               inject: "head",
               chunks: [],
-              filename: selectEntrypointHtml(folder, filename),
+              filename: selectEntrypointHtml(publicPath, folder, filename),
               templateContent: buildRevealTemplate({
                 script:
                   '<script src="https://quizzical-poincare-bb2498.netlify.app/reveal.js"></script>',

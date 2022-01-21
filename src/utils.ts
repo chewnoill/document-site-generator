@@ -4,33 +4,24 @@ import * as fs from "fs";
 export function selectEntrypoint(folder: string, filename: string) {
   return path.relative(
     folder,
-    path.join(path.dirname(filename), path.basename(filename).split(".")[0])
+    path.join(path.dirname(filename), path.basename(filename).split(".")[0]),
   );
 }
-export function selectRelativeJs(folder: string, filename: string) {
-  const prefix = path.relative(filename, folder) || ".";
+export function selectAbsJs(publicPath:string, folder: string, filename: string) {
   const entrypoint = selectEntrypoint(folder, filename);
-  if (entrypoint === "index") return "./index.js";
-  return prefix + "/" + entrypoint + ".js";
+  return publicPath + entrypoint + ".js";
 }
-export function selectEntrypointHtml(folder: string, filename: string) {
+export function selectEntrypointHtml(publicPath: string, folder: string, filename: string) {
   const entryPath = selectEntrypoint(folder, filename);
-  if (entryPath === "index") {
-    return "index.html";
-  }
+  console.log({publicPath, entryPath})
   if (entryPath.endsWith("index")) {
-    return entryPath + ".html";
+    return publicPath+entryPath + ".html";
   }
-  return entryPath + "/index.html";
+  return publicPath+entryPath + "/index.html";
 }
 
-export function selectRelativeMain(folder: string, filename: string) {
-  const entryPath = selectEntrypoint(folder, filename);
-  if (entryPath === "index") {
-    return "./main.js";
-  }
-  const prefix = path.relative(filename, folder);
-  return path.join(prefix, "main.js");
+export function selectAbsMain(publicPath: string, folder: string, filename: string) {
+  return publicPath+"main.js"
 }
 
 export function resolveFileList(folder) {

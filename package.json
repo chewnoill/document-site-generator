@@ -10,7 +10,7 @@
     "version": "oclif-dev readme && git add README.md",
     "build": "tsc && cp -R src/main/components lib/main/ && cp src/reveal.js lib/",
     "dev": "tsc && webpack serve --config lib/webpack/dev.config.js",
-    "dev:run": "./bin/run",
+    "debug": "yarn build && ./bin/run",
     "build:osx": "oclif-dev pack:macos",
     "build:deb": "oclif-dev pack:deb",
     "build:static": "yarn build && webpack --config lib/webpack/main-prod.config.js",

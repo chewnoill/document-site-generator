@@ -1,7 +1,6 @@
 import React from "react";
 import Mermaid from "./mermaid";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { prism as styles } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { CopyBlock, atomOneLight } from "react-code-blocks";
 
 export default function Code({ className, children }) {
   const lang = className ? className.split("-")[1] : "text";
@@ -10,14 +9,18 @@ export default function Code({ className, children }) {
       return <Mermaid>{children}</Mermaid>;
     default:
       return (
-        <SyntaxHighlighter
-          useInlineStyles={true}
+        <CopyBlock
           language={lang}
-          style={styles}
-          customStyle={{ background: "#F5F5F5" }}
-        >
-          {children}
-        </SyntaxHighlighter>
+          text={children.trim()}
+          showLineNumbers={false}
+          theme={{
+            ...atomOneLight,
+            backgroundColor:"#f5f5f5" ,
+
+          }}
+          wrapLines={true}
+          codeBlock
+        />
       );
   }
 }

@@ -194,7 +194,7 @@ const Wrapper = styled.article`
     vertical-align: top;
   }
 
-  pre > pre {
+  pre > div {
     border: 1px solid #999;
     border-radius: 5px;
     border-radius: 5px;

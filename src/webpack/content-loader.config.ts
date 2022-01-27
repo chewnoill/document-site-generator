@@ -7,6 +7,9 @@ export default {
     globalObject: "this",
     publicPath: "",
   },
+  performance: {
+    hints: false as const,
+  },
   externals: {
     react: "React",
     "react-dom": "ReactDOM",

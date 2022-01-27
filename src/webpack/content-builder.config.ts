@@ -94,6 +94,7 @@ export default function buildFolder(
             new RenderPlugin({
               folder,
               filename,
+              publicPath,
             })
         ),
       ],

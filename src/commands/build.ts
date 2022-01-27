@@ -18,7 +18,7 @@ export default class Run extends Command {
     }),
     publicPath: flags.string({
       char: "p",
-      default: "/docs",
+      default: "/docs/",
       helpValue: "publicPath for assets",
     }),
   };

@@ -20,7 +20,7 @@
   "bin": {
     "docs": "./bin/run"
   },
-  "bugs": "https://github.com/chewnoill/document-site-builder/issues",
+  "bugs": "https://github.com/chewnoill/document-site-generator/issues",
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@babel/plugin-syntax-jsx": "^7.16.0",
@@ -85,7 +85,7 @@
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json"
   ],
-  "homepage": "https://github.com/chewnoill/document-site-builder",
+  "homepage": "https://github.com/chewnoill/document-site-generator",
   "keywords": [
     "oclif"
   ],
@@ -101,6 +101,6 @@
       "identifier": "com.orchestrator.command"
     }
   },
-  "repository": "chewnoill/document-site-builder",
+  "repository": "chewnoill/document-site-generator",
   "types": "lib/index.d.ts"
 }

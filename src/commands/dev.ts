@@ -3,7 +3,6 @@ import * as Webpack from "webpack";
 import * as WebpackDevServer from "webpack-dev-server";
 import * as path from "path";
 import buildFolder from "../webpack/content-builder.config";
-import mainConfig from "../webpack/main.config";
 
 export default class Run extends Command {
   static description =

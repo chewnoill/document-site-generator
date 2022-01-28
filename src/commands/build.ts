@@ -2,7 +2,6 @@ import { Command, flags } from "@oclif/command";
 import path = require("path");
 import * as Webpack from "webpack";
 import buildFolder from "../webpack/content-builder.config";
-import mainConfig from "../webpack/main.config";
 
 export default class Run extends Command {
   static description = "Builds the contents of [FOLDER] ";

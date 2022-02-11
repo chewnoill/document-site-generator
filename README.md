@@ -2,6 +2,8 @@
 
 > An excersize in webpack configuration
 
+[doc site](https://document-site-builder.netlify.app/)
+
 ## Getting Started
 
 

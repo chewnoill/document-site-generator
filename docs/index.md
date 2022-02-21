@@ -6,14 +6,14 @@ With access to runtime javascript, we can use all of the browser tools and rende
 ### Like rendering 3d Objects
 
 ```mdx
-import Colosseum from './Colosseum.stl';
+import cube from './companion_cube.stl';
 
-<Stl url={Colosseum}/>
+<Stl url={cube}/>
 ```
 
-import Colosseum from './Colosseum.stl';
+import cube from './companion_cube.stl';
 
-<Stl url={Colosseum}/>
+<Stl url={cube}/>
 
 ## What does this do?
 

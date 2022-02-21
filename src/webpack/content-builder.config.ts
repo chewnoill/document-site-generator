@@ -11,6 +11,7 @@ import {
 } from "../utils";
 import { buildRevealTemplate } from "../reveal-template";
 import mainConfig from "./main.config";
+import { RevealPlugin } from "./reveal-plugin";
 
 function selectEntry(folder) {
   return (acc, filepath) => ({
@@ -57,25 +58,7 @@ export default function buildFolder(
         modules: resolveModules,
       },
       mode: "production" as const,
-      entry: entrySlides,
-      plugins: [
-        ...slides.reduce(
-          (acc, filename: string) => [
-            ...acc,
-            new HtmlWebpackPlugin({
-              inject: "head",
-              chunks: [],
-              filename: selectEntrypointHtml(publicPath, folder, filename),
-              templateContent: buildRevealTemplate({
-                script:
-                  '<script src="https://quizzical-poincare-bb2498.netlify.app/reveal.js"></script>',
-                markdown: fs.readFileSync(filename),
-              }),
-            }),
-          ],
-          []
-        ),
-      ],
+      entry: { ...entryPages, ...entrySlides },
     },
     {
       ...staticContentConfig,
@@ -96,6 +79,17 @@ export default function buildFolder(
               filename,
               publicPath,
             })
+        ),
+        ...slides.reduce(
+          (acc, filename: string) => [
+            ...acc,
+            new RevealPlugin({
+              folder,
+              filename,
+              publicPath,
+            }),
+          ],
+          []
         ),
       ],
     },

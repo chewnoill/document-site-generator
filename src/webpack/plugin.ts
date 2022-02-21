@@ -42,7 +42,7 @@ export class RenderPlugin {
     const nodeSourceJs =
       selectEntrypoint(this.options.folder, this.options.filename) + ".node.js";
     const destHtml = selectEntrypointHtml(
-      '/',
+      this.options.publicPath,
       this.options.folder,
       this.options.filename
     );

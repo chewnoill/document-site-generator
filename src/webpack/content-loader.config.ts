@@ -21,7 +21,7 @@ export default {
         type: "asset/resource",
       },
       {
-        test: /\.slides.md$/,
+        test: /\.slides\.md$/,
         type: "asset/resource",
       },
       {

@@ -3,6 +3,7 @@
   "version": "1.0.27",
   "author": "Will Cohen <chewnoill@gmail.com>",
   "scripts": {
+    "postinstall": "patch-package",
     "postpack": "rm -f oclif.manifest.json",
     "posttest": "eslint . --ext .ts --config .eslintrc",
     "prepack": "rm -rf lib && yarn build && oclif-dev manifest && oclif-dev readme",
@@ -40,7 +41,8 @@
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
     "markdown-loader": "^6.0.0",
-    "mermaid": "^8.13.3",
+    "mermaid": "^8.14.0",
+    "patch-package": "^6.4.7",
     "react": "^17",
     "react-code-blocks": "^0.0.9-0",
     "react-dom": "^17",

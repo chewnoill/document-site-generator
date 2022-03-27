@@ -1,0 +1,12 @@
+diff --git a/node_modules/highlight.js/styles/monokai.css b/node_modules/highlight.js/styles/monokai.css
+index 775d53f..3e1f8ed 100644
+--- a/node_modules/highlight.js/styles/monokai.css
++++ b/node_modules/highlight.js/styles/monokai.css
+@@ -2,6 +2,7 @@
+ Monokai style - ported by Luigi Maselli - http://grigio.org
+ */
+ 
++.hljs-ln,
+ .hljs {
+   display: block;
+   overflow-x: auto;
